@@ -1,181 +1,213 @@
-# titanic-survival-prediction
-Titanic survival prediction using Python and scikit-learn
-
-Titanic Survival Prediction
+# Titanic Survival Prediction
 
 A machine learning project that predicts passenger survival using the Kaggle Titanic dataset.
 
-This project focuses on the complete machine learning workflow, including exploratory data analysis, data preprocessing, feature engineering, model comparison, and hyperparameter tuning.
+This project covers a complete machine learning workflow, including exploratory data analysis, data preprocessing, feature engineering, model comparison, and hyperparameter tuning.
 
-Project Overview
+## Project Overview
 
 The goal of this project is to predict whether a passenger survived the Titanic disaster based on passenger information such as age, sex, passenger class, family relationships, ticket information, and fare.
 
-The project follows a typical supervised machine learning workflow:
+The project follows the following machine learning workflow:
 
-Exploratory Data Analysis
-Data Preprocessing
-Baseline Model Comparison
-Feature Engineering
-Model Evaluation
-Hyperparameter Tuning
-Final Prediction
-Kaggle Submission
-Dataset
+1. Exploratory Data Analysis
+2. Data Preprocessing
+3. Baseline Model Comparison
+4. Feature Engineering
+5. Feature-Engineered Preprocessing
+6. Model Evaluation
+7. Hyperparameter Tuning
+8. Final Prediction
+9. Kaggle Submission
 
-This project uses the Titanic - Machine Learning from Disaster dataset from Kaggle.
+## Dataset
+
+This project uses the [Titanic - Machine Learning from Disaster](https://www.kaggle.com/competitions/titanic) dataset from Kaggle.
 
 The dataset contains passenger information including:
 
-Passenger class
-Sex
-Age
-Number of siblings/spouses aboard
-Number of parents/children aboard
-Ticket
-Fare
-Cabin
-Port of embarkation
+- Passenger class
+- Sex
+- Age
+- Number of siblings/spouses aboard
+- Number of parents/children aboard
+- Ticket
+- Fare
+- Cabin
+- Port of embarkation
 
 The target variable is:
 
-Survived = 1: Survived
-Survived = 0: Did not survive
+- `Survived = 1`: Survived
+- `Survived = 0`: Did not survive
 
 The Kaggle competition evaluates predictions using classification accuracy.
 
-Technologies
-Python
-Pandas
-NumPy
-Matplotlib
-Scikit-learn
-Jupyter Notebook
-Exploratory Data Analysis
+## Technologies
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Scikit-learn
+- Jupyter Notebook
+
+## Exploratory Data Analysis
 
 The initial analysis included:
 
-Dataset inspection
-Numerical feature distributions
-Correlation analysis
-Examination of missing values
-Exploration of passenger characteristics
-Data Preprocessing
+- Dataset inspection
+- Numerical feature distributions
+- Correlation analysis
+- Examination of missing values
+- Exploration of passenger characteristics
 
-A Scikit-learn preprocessing pipeline was used to handle numerical and categorical features.
+## Data Preprocessing
 
-Numerical Features
+Scikit-learn pipelines were used to process numerical and categorical features separately.
+
+### Numerical Features
 
 The numerical preprocessing pipeline includes:
 
-Median imputation
-Square-root transformation
-Standardization
-Categorical Features
+- Median imputation
+- Square-root transformation
+- Standardization
+
+### Categorical Features
 
 The categorical preprocessing pipeline includes:
 
-Most-frequent-value imputation
-One-hot encoding
-Handling previously unseen categories
+- Most-frequent-value imputation
+- One-hot encoding
+- Handling previously unseen categories
 
-ColumnTransformer was used to apply different preprocessing pipelines to numerical and categorical variables.
+`ColumnTransformer` was used to apply different preprocessing pipelines to numerical and categorical features.
 
-Feature Engineering
+## Feature Engineering
 
-Several additional features were created to capture relationships that are not directly represented by the original variables.
+Several features were created to capture additional information from the original dataset.
 
-FamilySize
+### FamilySize
+
+The total number of family members traveling with the passenger:
+
+```text
 FamilySize = SibSp + Parch + 1
-IsAlone
+```
 
-Indicates whether a passenger was traveling alone.
+### IsAlone
 
-Title
+A binary feature indicating whether a passenger was traveling alone.
 
-Extracted from the passenger's name.
+### Title
 
-Deck
+The passenger's title was extracted from the `Name` column.
 
-Extracted from the first character of the cabin information.
+### Deck
 
-TicketGroupSize
+The first character of the `Cabin` value was extracted to represent the passenger's deck.
 
-Represents the number of passengers sharing the same ticket.
+### TicketGroupSize
 
-FarePerPerson
+The number of passengers sharing the same ticket was calculated using ticket frequency.
 
-Calculates the fare relative to the size of the ticket group.
+### FarePerPerson
 
-These features were incorporated into the preprocessing pipeline and evaluated through the modeling process.
+The fare was divided by the ticket group size:
 
-Models
+```text
+FarePerPerson = Fare / TicketGroupSize
+```
 
-Several classification algorithms were compared:
+These engineered features were incorporated into the preprocessing and modeling workflow.
 
-SGD Classifier
-Logistic Regression
-Random Forest
-K-Nearest Neighbors
+## Baseline Models
 
-Cross-validation was used to evaluate model performance.
+Several classification models were initially compared:
 
-Hyperparameter Tuning
+- SGD Classifier
+- Logistic Regression
+- Random Forest
+- K-Nearest Neighbors
 
-GridSearchCV was used to search for suitable hyperparameters.
+Cross-validation was used to evaluate the models.
 
-The main models and parameters explored included:
+## Hyperparameter Tuning
 
-Logistic Regression
-C
-SGD Classifier
-loss
-alpha
-Random Forest
-n_estimators
-max_depth
-min_samples_split
-max_features
-Final Model
+`GridSearchCV` was used to search for suitable hyperparameters for the candidate models.
 
-After comparing the candidate models and performing hyperparameter tuning, Logistic Regression was selected for the final prediction.
+### Logistic Regression
+
+The following hyperparameter was explored:
+
+- `C`
+
+### SGD Classifier
+
+The following hyperparameters were explored:
+
+- `loss`
+- `alpha`
+
+### Random Forest
+
+The following hyperparameters were explored:
+
+- `n_estimators`
+- `max_depth`
+- `min_samples_split`
+- `max_features`
+
+## Final Model
+
+After model comparison and hyperparameter tuning, Logistic Regression was selected as the final model.
 
 The final model was trained using the processed training data and used to generate predictions for the Kaggle test dataset.
 
-Results
-Evaluation	Result
-Cross-validation accuracy	~83%
-Kaggle score	0.77990
+## Results
 
-The Kaggle submission achieved an accuracy of 0.77990 on the competition leaderboard.
+| Evaluation | Result |
+|---|---|
+| Cross-validation accuracy | ~83% |
+| Kaggle score | 0.77990 |
 
-Repository Contents
+The final Kaggle submission achieved an accuracy of **0.77990**.
+
+## Repository Contents
+
+```text
 titanic-survival-prediction/
 │
 ├── README.md
 ├── titanic-survival-prediction.ipynb
 └── .gitignore
+```
 
-The Jupyter Notebook contains the complete analysis, preprocessing, feature engineering, model comparison, hyperparameter tuning, and prediction workflow.
+The Jupyter Notebook contains the complete analysis and modeling workflow, including exploratory data analysis, preprocessing, feature engineering, model comparison, hyperparameter tuning, and final prediction.
 
-What I Learned
+## What I Learned
 
 Through this project, I practiced:
 
-Exploratory data analysis
-Handling missing data
-Numerical and categorical preprocessing
-Scikit-learn pipelines
-ColumnTransformer
-Feature engineering
-One-hot encoding
-Cross-validation
-Model comparison
-Hyperparameter tuning with GridSearchCV
-Classification with Logistic Regression, SGD, Random Forest, and KNN
-Preparing predictions for a Kaggle competition
-Kaggle
+- Exploratory data analysis
+- Handling missing data
+- Numerical and categorical preprocessing
+- Scikit-learn pipelines
+- `ColumnTransformer`
+- Feature engineering
+- One-hot encoding
+- Cross-validation
+- Model comparison
+- Hyperparameter tuning with `GridSearchCV`
+- Logistic Regression
+- SGD Classification
+- Random Forest
+- K-Nearest Neighbors
+- Preparing predictions for a Kaggle competition
 
-This project was developed as part of the Titanic - Machine Learning from Disaster competition on Kaggle.
+## Kaggle
 
-Kaggle Titanic Competition
+This project was developed as part of the Kaggle Titanic competition.
+
+[View the Kaggle Competition](https://www.kaggle.com/competitions/titanic)
